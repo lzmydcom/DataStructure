@@ -54,7 +54,7 @@ public interface List<E> {
      * @param element 再容器中查找该元素
      * @return 返回该元素在容器中第一次出现的位置，找不到返回-1
      */
-    int indexOf(Object element);
+    int indexOf(E element);
 
     /**
      * 清空容器中所有元素，但容器还在

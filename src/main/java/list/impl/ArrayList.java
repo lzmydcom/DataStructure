@@ -1,13 +1,13 @@
 package list.impl;
 
 import list.List;
-import lombok.extern.log4j.Log4j;
-@Log4j
-public class ArrayList implements List<Object> {
+
+@SuppressWarnings({"unchecked"})
+public class ArrayList<E> implements List<E> {
 
     private static boolean OPEN_LOG = false;
     private int size = 0;
-    private Object[] elements;
+    private E[] elements;
 
     private static final int DEFAULT_CAPACITY = 10;
     private static final int ELEMENT_NOT_FOUND = -1;
@@ -18,9 +18,9 @@ public class ArrayList implements List<Object> {
 
     public ArrayList(int capacity) {
         if (capacity > 0){
-            elements = new Object[capacity];
+            elements = (E[]) new Object[capacity];
         } else if (capacity == 0) {
-            elements = new Object[]{};
+            elements = (E[]) new Object[]{};
         }else {
             throw new IllegalArgumentException("Illegal Capacity: " + capacity);
         }
@@ -41,9 +41,9 @@ public class ArrayList implements List<Object> {
         //开始扩容
         if (OPEN_LOG) System.out.println("开始扩容 oldCapacity:" + oldCapacity + "  newCapacity:" + (oldCapacity + (oldCapacity >> 1)));
 
-        Object[] objects = new Object[oldCapacity + (oldCapacity >> 1)];
-        System.arraycopy(elements, 0, objects, 0, elements.length);
-        elements = objects;
+        E[] Es = (E[]) new Object[oldCapacity + (oldCapacity >> 1)];
+        System.arraycopy(elements, 0, Es, 0, elements.length);
+        elements = Es;
     }
 
     private void indexCheck(int index) {
@@ -64,33 +64,33 @@ public class ArrayList implements List<Object> {
     }
 
     @Override
-    public boolean contains(Object element) {
+    public boolean contains(E element) {
         return indexOf(element) != ELEMENT_NOT_FOUND;
     }
 
     @Override
-    public void add(Object element) {
+    public void add(E element) {
         dynamicExpansion(size + 1);
         elements[size] = element;
         size++;
     }
 
     @Override
-    public Object get(int index) {
+    public E get(int index) {
         indexCheck(index);
         return elements[index];
     }
 
     @Override
-    public Object set(int index, Object element) {
+    public E set(int index, E element) {
         indexCheck(index);
-        Object old = elements[index];
+        E old = elements[index];
         elements[index] = element;
         return old;
     }
 
     @Override
-    public void add(int index, Object element) {
+    public void add(int index, E element) {
         indexCheckForAdd(index);
         dynamicExpansion(size + 1);
         if (size - index > 0) System.arraycopy(elements, index, elements, index + 1, size - index);
@@ -99,16 +99,16 @@ public class ArrayList implements List<Object> {
     }
 
     @Override
-    public Object remove(int index) {
+    public E remove(int index) {
         indexCheck(index);
-        Object oldObj = elements[index];
+        E oldObj = elements[index];
         if (size - 1 - index > 0) System.arraycopy(elements, index + 1, elements, index, size - 1 - index);
         elements[--size] = null;
         return oldObj;
     }
 
     @Override
-    public int indexOf(Object element) {
+    public int indexOf(E element) {
         if (element == null){
             for (int i = 0; i < size; i++) {
                 if (elements[i] == null) {
