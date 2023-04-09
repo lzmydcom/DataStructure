@@ -117,7 +117,7 @@ public class ArrayList<E> implements List<E> {
             }
         }else {
             for (int i = 0; i < size; i++) {
-                if (elements[i].equals(element)) {
+                if (element.equals(elements[i])) {
                     return i;
                 }
             }
