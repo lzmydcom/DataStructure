@@ -17,8 +17,13 @@ public class ArrayList implements List<Object> {
     }
 
     public ArrayList(int capacity) {
-        capacity = Math.max(capacity, DEFAULT_CAPACITY);
-        elements = new Object[capacity];
+        if (capacity > 0){
+            elements = new Object[capacity];
+        } else if (capacity == 0) {
+            elements = new Object[]{};
+        }else {
+            throw new IllegalArgumentException("Illegal Capacity: " + capacity);
+        }
     }
 
     public static void openLog() {
