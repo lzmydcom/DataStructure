@@ -1,13 +1,10 @@
-package list.impl;
+package structure.linearStructure.array.impl;
 
-import list.List;
+import structure.linearStructure.operation.AbstractList;
 
 @SuppressWarnings({"unchecked"})
-public class ArrayList<E> implements List<E> {
-
-    private static boolean OPEN_LOG = false;
-    private int size = 0;
-    private E[] elements;
+public class ArrayList<E> extends AbstractList<E> {
+    protected E[] elements;
 
     private static final int DEFAULT_CAPACITY = 10;
     private static final int ELEMENT_NOT_FOUND = -1;
@@ -26,16 +23,7 @@ public class ArrayList<E> implements List<E> {
         }
     }
 
-    public static void openLog() {
-        OPEN_LOG = true;
-    }
-
-    @Override
-    public int size() {
-        return size;
-    }
-
-    private void dynamicExpansion(int capacity) {
+    protected void dynamicExpansion(int capacity) {
         int oldCapacity = elements.length;
         if (oldCapacity >= capacity) return;
         //开始扩容
@@ -46,34 +34,6 @@ public class ArrayList<E> implements List<E> {
         elements = Es;
     }
 
-    private void indexCheck(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index:" + index + "," + "size:" + size);
-        }
-    }
-
-    private void indexCheckForAdd(int index) {
-        if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Index:" + index + "," + "size:" + size);
-        }
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    @Override
-    public boolean contains(E element) {
-        return indexOf(element) != ELEMENT_NOT_FOUND;
-    }
-
-    @Override
-    public void add(E element) {
-        dynamicExpansion(size + 1);
-        elements[size] = element;
-        size++;
-    }
 
     @Override
     public E get(int index) {
@@ -139,9 +99,13 @@ public class ArrayList<E> implements List<E> {
         StringBuilder stringBuilder = new StringBuilder("size = " + size + " array = [");
         for (int i = 0; i < size; i++) {
             if (i == size - 1) {
-                stringBuilder.append(elements[i]).append("]");
-            } else stringBuilder.append(elements[i]).append(",");
+                stringBuilder.append(elements[i].toString()).append("]");
+            } else stringBuilder.append(elements[i].toString()).append(",");
         }
         return stringBuilder.toString();
+    }
+
+    public int getCapacity(){
+        return elements.length;
     }
 }

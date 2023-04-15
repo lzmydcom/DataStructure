@@ -1,6 +1,9 @@
-package list;
+package structure.linearStructure.operation;
 
 public interface List<E> {
+
+    int ELEMENT_NOT_FOUND = -1;
+
     /**
      * @return 返回容器元素个数
      */
