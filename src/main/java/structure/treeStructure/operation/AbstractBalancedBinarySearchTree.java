@@ -1,7 +1,5 @@
 package structure.treeStructure.operation;
 
-import structure.treeStructure.impl.AvlTree;
-
 public abstract class AbstractBalancedBinarySearchTree <E> extends AbstractBinaryTree<E> {
     public AbstractBalancedBinarySearchTree() {
     }
