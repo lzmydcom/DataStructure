@@ -1,17 +1,17 @@
 package structure.treeStructure.impl;
 
-import structure.treeStructure.operation.AbstractBinaryTree;
+import structure.treeStructure.operation.AbstractBalancedBinarySearchTree;
 import structure.treeStructure.operation.Comparator;
 import util.printer.BinaryTreeInfo;
 
 @SuppressWarnings("all")
-public class BalancedBinarySearchTree<E> extends AbstractBinaryTree<E> implements BinaryTreeInfo {
+public class AvlTree<E> extends AbstractBalancedBinarySearchTree<E> implements BinaryTreeInfo {
 
-    public BalancedBinarySearchTree() {
+    public AvlTree() {
 
     }
 
-    public BalancedBinarySearchTree(Comparator<E> comparator) {
+    public AvlTree(Comparator<E> comparator) {
         super(comparator);
     }
 
@@ -63,57 +63,8 @@ public class BalancedBinarySearchTree<E> extends AbstractBinaryTree<E> implement
         return new AvlNode<>(element, parent);
     }
 
-    /**
-     *
-     * @param grand 左旋转
-     */
-    private void leftRotation(Node<E> grand) {
-        Node<E> parent = grand.right;
-        grand.right = parent.left;
-        if (parent.left != null) {
-            parent.left.parent = grand;
-        }
-        if (grand.parent == null){
-            root = parent;
-        } else if (grand.isLeftOfTheFather()){
-            grand.parent.left = parent;
-        }else {
-            grand.parent.right = parent;
-        }
-        parent.left = grand;
-        parent.parent = grand.parent;
-        grand.parent = parent;
 
-        //更新高度
-        updateHeight((AvlNode<E>) parent);
-        updateHeight((AvlNode<E>) grand);
-    }
 
-    /**
-     *
-     * @param grand 右旋转
-     */
-    private void rightRotation(Node<E> grand) {
-        Node<E> parent = grand.left;
-        grand.left = parent.right;
-        if (parent.right != null) {
-            parent.right.parent = grand;
-        }
-        if (grand.parent == null){
-            root = parent;
-        } else if (grand.isLeftOfTheFather()){
-            grand.parent.left = parent;
-        }else {
-            grand.parent.right = parent;
-        }
-        parent.right = grand;
-        parent.parent = grand.parent;
-        grand.parent = parent;
-
-        //更新高度
-        updateHeight((AvlNode<E>) parent);
-        updateHeight((AvlNode<E>) grand);
-    }
 
     /**
      * 判断一个节点是否处于平衡状态
@@ -130,6 +81,20 @@ public class BalancedBinarySearchTree<E> extends AbstractBinaryTree<E> implement
         avlNode.height = Math.max(rightHeight, leftHeight) + 1;
     }
 
+    private void rightRotation(Node<E> grand,Node<E> parent){
+        rightRotation(grand);
+        //更新高度
+        updateHeight((AvlTree.AvlNode<E>) parent);
+        updateHeight((AvlTree.AvlNode<E>) grand);
+    }
+
+    private void leftRotation(Node<E> grand,Node<E> parent){
+        leftRotation(grand);
+        //更新高度
+        updateHeight((AvlTree.AvlNode<E>) parent);
+        updateHeight((AvlTree.AvlNode<E>) grand);
+    }
+
     /**
      * 进行平衡恢复
      *
@@ -141,16 +106,16 @@ public class BalancedBinarySearchTree<E> extends AbstractBinaryTree<E> implement
         if (parent.isLeftOfTheFather()) {
             if (eNode.isRightOfTheFather()) {
                 //LR
-                leftRotation(parent);
+                leftRotation(parent,eNode);
             }   //LL
-            rightRotation(grand);
+            rightRotation(grand,parent);
         } else {
             if (eNode.isLeftOfTheFather()) {
                 //RL
-                rightRotation(parent);
+                rightRotation(parent,eNode);
 
             }  //RR
-            leftRotation(grand);
+            leftRotation(grand,parent);
         }
     }
 

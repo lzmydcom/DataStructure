@@ -190,7 +190,7 @@ public abstract class AbstractBinaryTree<E> implements BinaryTree<E>{
             return;
         }
         //前驱节点是度为1的节点，且只可能 是父亲节点的左孩子并自己有一个左孩子
-        precursor.parent.left = precursor.left;
+        precursor.parent.right = precursor.left;
         precursor.left.parent = precursor.parent;
         //删除节点后的调整
         removeAfter(precursor);
