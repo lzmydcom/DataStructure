@@ -1,4 +1,4 @@
-package structure.linearStructure.linked.queue;
+package structure.linearStructure.operation;
 
 public interface Deque<E> {
     int size();

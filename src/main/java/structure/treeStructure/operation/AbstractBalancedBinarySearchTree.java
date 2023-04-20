@@ -1,5 +1,6 @@
 package structure.treeStructure.operation;
 
+@SuppressWarnings("all")
 public abstract class AbstractBalancedBinarySearchTree <E> extends AbstractBinaryTree<E> {
     public AbstractBalancedBinarySearchTree() {
     }

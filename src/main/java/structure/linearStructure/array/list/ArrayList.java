@@ -1,4 +1,4 @@
-package structure.linearStructure.array.impl;
+package structure.linearStructure.array.list;
 
 import structure.linearStructure.operation.AbstractList;
 

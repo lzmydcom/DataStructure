@@ -1,8 +1,9 @@
 package structure.linearStructure.linked.queue;
 
-import structure.linearStructure.linked.impl.BidirectionalLinkedList;
+import structure.linearStructure.linked.list.BidirectionalLinkedList;
+import structure.linearStructure.operation.Deque;
 
-public class BidirectionalLinkedQueue<E> implements Deque<E>{
+public class BidirectionalLinkedQueue<E> implements Deque<E> {
 
     private final BidirectionalLinkedList<E> list;
     public BidirectionalLinkedQueue() {

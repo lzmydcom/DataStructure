@@ -88,50 +88,9 @@ public abstract class AbstractBinaryTree<E> implements BinaryTree<E>{
         return size == 0;
     }
 
-   /* @Override
-    public void add(E element) {
-        //添加根节点
-        if (root == null) {
-            Node<E> node = createNode(element, null);
-            root = node;
-            size++;
-            //进行添加节点后的调整
-            addAfter(node);
-            return;
-        }
-        //添加的不是根节点
-        int cmp = 0;
-        Node<E> node = root;
-        Node<E> parent = null;
-        while (node != null) {
-            cmp = compare(element, node.element);
-            //找到新添加元素的父节点
-            parent = node;
-            if (cmp > 0) {
-                node = node.right;
-            } else if (cmp < 0) {
-                node = node.left;
-            } else {
-                node.element = element;
-                return;
-            }
-        }
-        //判断新元素加在父节点的哪个位置
-        Node<E> newNode = createNode(element, parent);
-        if (cmp > 0) {
-            parent.right = newNode;
-        } else {
-            parent.left = newNode;
-        }
-        size++;
-        //进行添加节点后的调整
-        addAfter(newNode);
-    }
-*/
     @Override
     public void add(E element) {
         elementNotNullCheck(element);
-
         // 添加第一个节点
         if (root == null) {
             root = createNode(element, null);

@@ -1,4 +1,4 @@
-package structure.treeStructure.impl;
+package structure.treeStructure.tree;
 
 import structure.treeStructure.operation.AbstractBalancedBinarySearchTree;
 import structure.treeStructure.operation.Comparator;

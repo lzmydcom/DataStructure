@@ -1,7 +1,7 @@
 package structure.linearStructure.linked.queue;
 
 import structure.linearStructure.operation.Queue;
-import structure.linearStructure.linked.impl.LinkedList;
+import structure.linearStructure.linked.list.LinkedList;
 
 public class LinkedQueue<E> implements Queue<E> {
     private final LinkedList<E> list;

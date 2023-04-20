@@ -1,4 +1,4 @@
-package structure.treeStructure.impl;
+package structure.treeStructure.tree;
 
 import structure.treeStructure.operation.AbstractBalancedBinarySearchTree;
 import structure.treeStructure.operation.Comparator;
@@ -11,6 +11,9 @@ public class RedBlackTree<E> extends AbstractBalancedBinarySearchTree<E> impleme
 	
 	public RedBlackTree() {
 		this(null);
+	}
+	public RedBlackTree(Comparator<E> comparator) {
+		super(comparator);
 	}
 
 	@Override
@@ -137,9 +140,7 @@ public class RedBlackTree<E> extends AbstractBalancedBinarySearchTree<E> impleme
 		}
 	}
 
-	public RedBlackTree(Comparator<E> comparator) {
-		super(comparator);
-	}
+
 
 	private Node<E> color(Node<E> node, boolean color) {
 		if (node == null) return null;

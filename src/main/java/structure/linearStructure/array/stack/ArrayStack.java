@@ -1,6 +1,6 @@
 package structure.linearStructure.array.stack;
 
-import structure.linearStructure.array.impl.ArrayList;
+import structure.linearStructure.array.list.ArrayList;
 
 public class ArrayStack<E> implements Stack<E>{
 
