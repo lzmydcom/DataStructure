@@ -95,7 +95,6 @@ public abstract class AbstractBinaryTree<E> implements BinaryTree<E>{
         if (root == null) {
             root = createNode(element, null);
             size++;
-
             // 新添加节点之后的处理
             addAfter(root);
             return;
