@@ -1,4 +1,4 @@
-package structure.treeStructure.collection;
+package structure.treeStructure.collection.operation;
 
 public interface Map<K, V> {
     int size();

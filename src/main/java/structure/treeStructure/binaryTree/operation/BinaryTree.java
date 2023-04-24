@@ -1,4 +1,4 @@
-package structure.treeStructure.operation;
+package structure.treeStructure.binaryTree.operation;
 
 public interface BinaryTree<E> {
     /**

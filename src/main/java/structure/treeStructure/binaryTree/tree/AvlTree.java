@@ -1,6 +1,6 @@
-package structure.treeStructure.tree;
+package structure.treeStructure.binaryTree.tree;
 
-import structure.treeStructure.operation.AbstractBalancedBinarySearchTree;
+import structure.treeStructure.binaryTree.operation.AbstractBalancedBinarySearchTree;
 import structure.treeStructure.operation.Comparator;
 import util.printer.BinaryTreeInfo;
 

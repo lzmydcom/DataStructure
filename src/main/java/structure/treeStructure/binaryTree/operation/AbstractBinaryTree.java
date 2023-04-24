@@ -1,7 +1,8 @@
-package structure.treeStructure.operation;
+package structure.treeStructure.binaryTree.operation;
 
 import structure.linearStructure.linked.queue.LinkedQueue;
 import structure.linearStructure.operation.Queue;
+import structure.treeStructure.operation.Comparator;
 
 @SuppressWarnings("all")
 public abstract class AbstractBinaryTree<E> implements BinaryTree<E>{
@@ -431,10 +432,11 @@ public abstract class AbstractBinaryTree<E> implements BinaryTree<E>{
 
     /**
      * 如果传入了比较器，优先使用比较器的逻辑，如果没有传入比较器，就要求容器中的元素必须是可比较的，
-     * 必须实现我写的Comparable接口。（和JDK的Comparable接口内容一样但必须是我写的 》_《  JDK的不行哦~）
+     * 必须实现Comparable接口。
      * @param e1 比较参数e1
      * @param e2 比较参数e2
      * @return 返回值等于0，代表e1等于e2，返回值大于0，e1大于e2，返回值小于0，e1小于e2
+     *
      */
     protected int compare(E e1, E e2) {
         return comparator == null ? ((Comparable<E>) e1).compareTo(e2) : comparator.compare(e1, e2);

@@ -1,4 +1,6 @@
-package structure.treeStructure.operation;
+package structure.treeStructure.binaryTree.operation;
+
+import structure.treeStructure.operation.Comparator;
 
 @SuppressWarnings("all")
 public abstract class AbstractBalancedBinarySearchTree <E> extends AbstractBinaryTree<E> {
