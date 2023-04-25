@@ -37,10 +37,10 @@ public class SmallTopHeap<E> extends AbstractBinaryHeap<E> {
         int leftIndex = (index << 1) + 1;
         int rightIndex = leftIndex + 1;
         //一定有子节点
-        while (leftIndex <= size - 1) {
+        while (leftIndex < size) {
             E elementL = elements[leftIndex];
-            E elementR = elements[rightIndex];
-            if (rightIndex <= size - 1) {
+            if (rightIndex < size) {
+                E elementR = elements[rightIndex];
                 if (compare(elementL, elementR) < 0) {
                     if (compare(element, elementL) > 0){
                         elements[index] = elementL;

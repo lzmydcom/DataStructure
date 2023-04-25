@@ -98,6 +98,9 @@ public class LinkedList<E> extends AbstractList<E> {
         return head;
     }
 
+    /**
+     * 将这个链表翻转
+     */
     public void reverseList(){
         //如果链表只有一个元素，直接返回头指针
         if (first.next == null) return;
@@ -120,6 +123,7 @@ public class LinkedList<E> extends AbstractList<E> {
         point1.next = point2;
         this.first = point1;
     }
+
 
     @Override
     public String toString() {

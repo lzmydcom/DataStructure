@@ -3,6 +3,7 @@ package structure.treeStructure.binaryTree.operation;
 import structure.linearStructure.linked.queue.LinkedQueue;
 import structure.linearStructure.operation.Queue;
 import structure.treeStructure.operation.Comparator;
+import structure.treeStructure.operation.Visitor;
 
 @SuppressWarnings("all")
 public abstract class AbstractBinaryTree<E> implements BinaryTree<E>{

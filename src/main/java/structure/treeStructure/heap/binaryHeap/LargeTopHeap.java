@@ -10,7 +10,6 @@ public class LargeTopHeap<E> extends AbstractBinaryHeap<E> {
         super();
     }
 
-
     public LargeTopHeap(Comparator<E> comparator) {
         super(comparator);
     }
@@ -20,11 +19,12 @@ public class LargeTopHeap<E> extends AbstractBinaryHeap<E> {
         E element = elements[index];
         int leftIndex = (index << 1) + 1;
         int rightIndex = leftIndex + 1;
-        //一定有子节点
-        while (leftIndex <= size - 1) {
+        //一定有左子节点
+        while (leftIndex < size) {
             E elementL = elements[leftIndex];
-            E elementR = elements[rightIndex];
-            if (rightIndex <= size - 1) {
+            //有右子节点
+            if (rightIndex < size) {
+                E elementR = elements[rightIndex];
                 if (compare(elementL, elementR) > 0) {
                     if (compare(element, elementL) < 0){
                         elements[index] = elementL;
