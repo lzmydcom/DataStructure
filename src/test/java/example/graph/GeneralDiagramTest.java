@@ -1,4 +1,4 @@
-package graph;
+package example.graph;
 
 import org.junit.Test;
 import structure.graph.operation.GeneralDiagram;
@@ -40,6 +40,7 @@ public class GeneralDiagramTest {
         graph.depthFirstSearch("V1", new Visitor<String>() {
             @Override
             public void visit(String s) {
+                if ("V4".equals(s)) Visitor.stop = true;
                 System.out.println(s);
             }
         });

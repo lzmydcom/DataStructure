@@ -110,6 +110,7 @@ public class GeneralDiagram<V, E> implements Graph<V, E> {
         set.add(veVertex);
         do {
             Vertex<V, E> deQueue = queue.deQueue();
+            if (Visitor.stop) return;
             visitor.visit(deQueue.value);
             for (Edge<V, E> edge : deQueue.toEdges) {
                 if (set.contains(edge.to)) continue;
@@ -147,6 +148,7 @@ public class GeneralDiagram<V, E> implements Graph<V, E> {
                 //访问过的节点加入到Set集合中，确保下次遇到已访问节点时直接跳过
                 set.add(to);
                 //没访问过的节点，对该节点进行访问并加入到栈中
+                if (Visitor.stop) return;
                 visitor.visit(to.value);
                 stack.push(to);
                 //此次访问到的节点是新节点，标记为true
