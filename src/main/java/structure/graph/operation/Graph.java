@@ -41,4 +41,9 @@ public interface Graph<V, E> {
      * 广度优先搜索
      */
     void breadthFirstSearch(V begin, Visitor<V> visitor);
+
+    /**
+     * 深度优先搜索
+     */
+    void depthFirstSearch(V begin, Visitor<V> visitor);
 }

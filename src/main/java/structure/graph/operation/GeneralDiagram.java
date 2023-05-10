@@ -1,12 +1,14 @@
 package structure.graph.operation;
 
+import structure.linear.array.stack.ArrayStack;
+import structure.linear.array.stack.Stack;
 import structure.linear.linked.queue.LinkedQueue;
 import structure.linear.operation.Queue;
 import structure.tree.operation.Visitor;
 
 import java.util.*;
 
-public class DirectedGraph<V, E> implements Graph<V, E> {
+public class GeneralDiagram<V, E> implements Graph<V, E> {
 
     private Map<V, Vertex<V, E>> vertices = new HashMap<>();
 
@@ -106,7 +108,7 @@ public class DirectedGraph<V, E> implements Graph<V, E> {
         Set<Vertex<V, E>> set = new HashSet<>();
         queue.enQueue(veVertex);
         set.add(veVertex);
-        while (!queue.isEmpty()){
+        do {
             Vertex<V, E> deQueue = queue.deQueue();
             visitor.visit(deQueue.value);
             for (Edge<V, E> edge : deQueue.toEdges) {
@@ -114,8 +116,53 @@ public class DirectedGraph<V, E> implements Graph<V, E> {
                 queue.enQueue(edge.to);
                 set.add(edge.to);
             }
-        }
+        } while (!queue.isEmpty());
     }
+
+    @Override
+    public void depthFirstSearch(V begin, Visitor<V> visitor) {
+        Vertex<V, E> veVertex = vertices.get(begin);
+        //如果传入的节点在图中没有，就没必要进行深度优先搜索
+        if (veVertex == null) return;
+
+        Stack<Vertex<V, E>> stack = new ArrayStack<>();
+
+        visitor.visit(veVertex.value);
+        stack.push(veVertex);
+
+        //Set集合中的元素不重复，能用来检查节点是否访问过
+        Set<Vertex<V, E>> set = new HashSet<>();
+        set.add(veVertex);
+
+        Vertex<V, E> to;
+        boolean isANewNode = false;
+
+        do {
+            Vertex<V, E> top = stack.top();
+
+            for (Edge<V, E> edge : top.toEdges) {
+                to = edge.to;
+                //如果是访问过的节点就不能入栈，直接跳过
+                if (set.contains(to)) continue;
+                //访问过的节点加入到Set集合中，确保下次遇到已访问节点时直接跳过
+                set.add(to);
+                //没访问过的节点，对该节点进行访问并加入到栈中
+                visitor.visit(to.value);
+                stack.push(to);
+                //此次访问到的节点是新节点，标记为true
+                isANewNode = true;
+                break;
+            }
+            //下一次访问从此新节点开始，不能将新节点pop，将节点上所有路径都访问完了的节点pop
+            if (!isANewNode) {
+                stack.pop();
+            }
+            //刷新标记
+            isANewNode = false;
+        } while (!stack.isEmpty());
+
+    }
+
 
     private void vertexNotNullCheck(V v){
         if (v == null) throw new IllegalArgumentException("v must not be null");
