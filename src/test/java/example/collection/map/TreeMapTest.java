@@ -2,8 +2,8 @@ package example.collection.map;
 
 import org.junit.Assert;
 import org.junit.Test;
-import structure.treeStructure.collection.map.TreeMap;
-import structure.treeStructure.collection.operation.Visitor;
+import structure.tree.collection.map.TreeMap;
+import structure.tree.collection.operation.Visitor;
 import util.printer.BinaryTrees;
 
 public class TreeMapTest {

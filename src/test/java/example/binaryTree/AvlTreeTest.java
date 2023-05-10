@@ -1,7 +1,7 @@
 package example.binaryTree;
 
 import org.junit.Test;
-import structure.treeStructure.binaryTree.tree.AvlTree;
+import structure.tree.binaryTree.tree.AvlTree;
 import util.printer.BinaryTrees;
 
 import java.util.Arrays;

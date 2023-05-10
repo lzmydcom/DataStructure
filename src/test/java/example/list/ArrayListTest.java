@@ -2,9 +2,9 @@ package example.list;
 
 import org.junit.Assert;
 import org.junit.Test;
-import structure.linearStructure.array.list.ArrayList;
-import structure.linearStructure.array.queue.CircleQueue;
-import structure.linearStructure.array.stack.ArrayStack;
+import structure.linear.array.list.ArrayList;
+import structure.linear.array.queue.CircleQueue;
+import structure.linear.array.stack.ArrayStack;
 
 public class ArrayListTest {
     @Test

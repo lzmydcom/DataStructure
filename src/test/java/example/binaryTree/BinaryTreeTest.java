@@ -1,9 +1,9 @@
 package example.binaryTree;
 
 import org.junit.Test;
-import structure.treeStructure.binaryTree.tree.BinarySearchTree;
-import structure.treeStructure.operation.Comparator;
-import structure.treeStructure.operation.Visitor;
+import structure.tree.binaryTree.tree.BinarySearchTree;
+import structure.tree.operation.Comparator;
+import structure.tree.operation.Visitor;
 import util.printer.BinaryTrees;
 
 public class BinaryTreeTest {

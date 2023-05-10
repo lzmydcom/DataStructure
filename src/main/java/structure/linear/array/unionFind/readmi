@@ -1,0 +1,9 @@
+quickFind 查找 O(1) 合并 O(n)
+
+quickUnion_S 查找 O(log n) 合并 O(log n) 基于size的优化 将size小的集合合并到大的集合
+
+quickUnion_R 查找 O(log n) 合并 O(log n) 基于rank的优化 将高度小的集合合并到高度大的集合
+
+quickUnion_R_PC
+
+

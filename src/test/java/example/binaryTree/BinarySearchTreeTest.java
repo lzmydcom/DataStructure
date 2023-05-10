@@ -2,8 +2,8 @@ package example.binaryTree;
 
 import org.junit.Test;
 import pojo.Student;
-import structure.treeStructure.binaryTree.tree.BinarySearchTree;
-import structure.treeStructure.operation.Comparator;
+import structure.tree.binaryTree.tree.BinarySearchTree;
+import structure.tree.operation.Comparator;
 import util.printer.BinaryTrees;
 
 public class BinarySearchTreeTest {

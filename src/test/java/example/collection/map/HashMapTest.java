@@ -2,11 +2,8 @@ package example.collection.map;
 
 import org.junit.Assert;
 import org.junit.Test;
-import structure.treeStructure.collection.map.HashMap;
-import structure.treeStructure.collection.operation.Visitor;
-
-import java.io.FileReader;
-import java.io.IOException;
+import structure.tree.collection.map.HashMap;
+import structure.tree.collection.operation.Visitor;
 
 public class HashMapTest {
 
@@ -38,9 +35,6 @@ public class HashMapTest {
                 map.remove(integer);
             }
         }
-
-
-
     }
 
     @Test
@@ -73,27 +67,6 @@ public class HashMapTest {
                 return key == 58;
             }
         });
-
-    }
-
-    @Test
-    public void HashMapLastTest() throws IOException {
-        HashMap<Object, Object> map = new HashMap<>();
-        FileReader reader = null;
-        try {
-            reader = new FileReader("D:\\leetcode\\数据结构");
-
-            char[] chars = new char[100];
-            int readCount = 0;
-            while ((readCount = reader.read(chars)) != -1){
-
-            }
-        } finally {
-            if (reader != null){
-                reader.close();
-            }
-        }
-
 
     }
 

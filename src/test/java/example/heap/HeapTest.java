@@ -1,8 +1,8 @@
 package example.heap;
 
 import org.junit.Test;
-import structure.treeStructure.heap.binaryHeap.LargeTopHeap;
-import structure.treeStructure.heap.binaryHeap.SmallTopHeap;
+import structure.linear.heap.binaryHeap.LargeTopHeap;
+import structure.linear.heap.binaryHeap.SmallTopHeap;
 import util.printer.BinaryTrees;
 
 public class HeapTest {

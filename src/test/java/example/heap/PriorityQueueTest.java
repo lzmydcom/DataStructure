@@ -2,7 +2,7 @@ package example.heap;
 
 import org.junit.Test;
 import pojo.Person;
-import structure.treeStructure.heap.queue.PriorityQueue;
+import structure.linear.heap.queue.PriorityQueue;
 
 public class PriorityQueueTest {
 

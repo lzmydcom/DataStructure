@@ -5,10 +5,10 @@ import file.Files;
 import pojo.Key;
 import pojo.SubKey1;
 import pojo.SubKey2;
-import structure.treeStructure.collection.map.HashMap;
-import structure.treeStructure.collection.operation.Map;
-import structure.treeStructure.collection.map.TreeMap;
-import structure.treeStructure.collection.operation.Visitor;
+import structure.tree.collection.map.HashMap;
+import structure.tree.collection.operation.Map;
+import structure.tree.collection.map.TreeMap;
+import structure.tree.collection.operation.Visitor;
 
 public class Main {
 

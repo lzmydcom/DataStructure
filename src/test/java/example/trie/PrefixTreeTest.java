@@ -2,7 +2,7 @@ package example.trie;
 
 import org.junit.Assert;
 import org.junit.Test;
-import structure.treeStructure.trie.prefixTree.PrefixTree;
+import structure.tree.trie.prefixTree.PrefixTree;
 
 public class PrefixTreeTest {
     @Test

@@ -2,8 +2,8 @@ package example.heap;
 
 import org.junit.Assert;
 import org.junit.Test;
-import structure.treeStructure.heap.binaryHeap.SmallTopHeap;
-import structure.treeStructure.heap.operation.AbstractBinaryHeap;
+import structure.linear.heap.binaryHeap.SmallTopHeap;
+import structure.linear.heap.operation.AbstractBinaryHeap;
 import util.printer.BinaryTrees;
 
 public class SmallTopHeapTest {

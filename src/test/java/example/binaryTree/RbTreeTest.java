@@ -1,7 +1,7 @@
 package example.binaryTree;
 
 import org.junit.Test;
-import structure.treeStructure.binaryTree.tree.RedBlackTree;
+import structure.tree.binaryTree.tree.RedBlackTree;
 import util.printer.BinaryTrees;
 
 public class RbTreeTest {

@@ -2,7 +2,7 @@ package example.list;
 
 import org.junit.Assert;
 import org.junit.Test;
-import structure.linearStructure.linked.list.LinkedList;
+import structure.linear.linked.list.LinkedList;
 
 
 public class LinkedListTest {

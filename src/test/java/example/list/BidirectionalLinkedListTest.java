@@ -2,12 +2,12 @@ package example.list;
 
 import org.junit.Assert;
 import org.junit.Test;
-import structure.linearStructure.linked.list.BidirectionalLinkedList;
-import structure.linearStructure.linked.list.CircularLinkedList;
-import structure.linearStructure.linked.queue.BidirectionalLinkedQueue;
-import structure.linearStructure.operation.Deque;
-import structure.linearStructure.linked.queue.LinkedQueue;
-import structure.linearStructure.operation.List;
+import structure.linear.linked.list.BidirectionalLinkedList;
+import structure.linear.linked.list.CircularLinkedList;
+import structure.linear.linked.queue.BidirectionalLinkedQueue;
+import structure.linear.operation.Deque;
+import structure.linear.linked.queue.LinkedQueue;
+import structure.linear.operation.List;
 
 public class BidirectionalLinkedListTest {
     @Test
