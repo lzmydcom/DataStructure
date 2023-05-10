@@ -2,6 +2,8 @@ package structure.graph.operation;
 
 import structure.operation.Visitor;
 
+import java.util.List;
+
 public interface Graph<V, E> {
     /**
      *返回边数
@@ -44,4 +46,6 @@ public interface Graph<V, E> {
      * 深度优先搜索
      */
     void depthFirstSearch(V begin, Visitor<V> visitor);
+
+    List<V> topologicalSort();
 }

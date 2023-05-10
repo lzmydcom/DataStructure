@@ -1,5 +1,6 @@
-package structure.graph.operation;
+package structure.graph;
 
+import structure.graph.operation.Graph;
 import structure.linear.array.stack.ArrayStack;
 import structure.linear.array.stack.Stack;
 import structure.linear.linked.queue.LinkedQueue;
@@ -8,11 +9,11 @@ import structure.operation.Visitor;
 
 import java.util.*;
 
-public class GeneralDiagram<V, E> implements Graph<V, E> {
+public class GeneralGraph<V, E> implements Graph<V, E> {
 
-    private Map<V, Vertex<V, E>> vertices = new HashMap<>();
+    private final Map<V, Vertex<V, E>> vertices = new HashMap<>();
 
-    private Set<Edge<V, E>> edges = new HashSet<>();
+    private final Set<Edge<V, E>> edges = new HashSet<>();
 
     public void print(){
         vertices.forEach((V v, Vertex<V, E> vertex)->{
@@ -163,6 +164,35 @@ public class GeneralDiagram<V, E> implements Graph<V, E> {
             isANewNode = false;
         } while (!stack.isEmpty());
 
+    }
+
+    @Override
+    public List<V> topologicalSort() {
+        List<V> resultList = new LinkedList<>();
+        Queue<Vertex<V, E>> queue = new LinkedQueue<>();
+        Map<Vertex<V, E>, Integer> map = new HashMap<>();
+        //将入度为0的节点加入队列中，入度不为0的节点记录到map集合中
+        vertices.forEach((V v, Vertex<V,E> vertex)->{
+            int size = vertex.fromEdges.size();
+            if (size == 0){
+                queue.enQueue(vertex);
+            } else{
+                map.put(vertex, size);
+            }
+        });
+        do {
+            Vertex<V, E> veVertex = queue.deQueue();
+            resultList.add(veVertex.value);
+            for (Edge<V, E> toEdge : veVertex.toEdges) {
+                int size = map.get(toEdge.to) - 1;
+                if (size == 0){
+                    queue.enQueue(toEdge.to);
+                }else {
+                    map.put(toEdge.to, size);
+                }
+            }
+        }while (!queue.isEmpty());
+        return resultList;
     }
 
 
