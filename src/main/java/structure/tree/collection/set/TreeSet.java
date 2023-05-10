@@ -3,7 +3,7 @@ package structure.tree.collection.set;
 import structure.linear.array.stack.ArrayStack;
 import structure.linear.array.stack.Stack;
 import structure.tree.collection.operation.Set;
-import structure.tree.operation.Visitor;
+import structure.operation.Visitor;
 import util.printer.BinaryTreeInfo;
 
 import java.util.Comparator;

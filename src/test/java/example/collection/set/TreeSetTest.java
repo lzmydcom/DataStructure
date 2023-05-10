@@ -3,7 +3,7 @@ package example.collection.set;
 import org.junit.Assert;
 import org.junit.Test;
 import structure.tree.collection.set.TreeSet;
-import structure.tree.operation.Visitor;
+import structure.operation.Visitor;
 import util.printer.BinaryTrees;
 
 public class TreeSetTest {

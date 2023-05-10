@@ -2,7 +2,7 @@ package structure.tree.collection.set;
 
 import structure.tree.collection.map.HashMap;
 import structure.tree.collection.operation.Set;
-import structure.tree.operation.Visitor;
+import structure.operation.Visitor;
 
 
 /**

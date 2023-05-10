@@ -2,7 +2,7 @@ package structure.linear.heap.queue;
 
 import structure.linear.heap.binaryHeap.SmallTopHeap;
 import structure.linear.operation.Queue;
-import structure.tree.operation.Comparator;
+import structure.operation.Comparator;
 
 
 /**

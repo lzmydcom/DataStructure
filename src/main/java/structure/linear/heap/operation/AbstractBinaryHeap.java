@@ -1,6 +1,6 @@
 package structure.linear.heap.operation;
 
-import structure.tree.operation.Comparator;
+import structure.operation.Comparator;
 import util.printer.BinaryTreeInfo;
 
 import java.util.Arrays;

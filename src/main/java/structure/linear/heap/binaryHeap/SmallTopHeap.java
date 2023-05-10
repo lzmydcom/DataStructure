@@ -1,7 +1,7 @@
 package structure.linear.heap.binaryHeap;
 
 import structure.linear.heap.operation.AbstractBinaryHeap;
-import structure.tree.operation.Comparator;
+import structure.operation.Comparator;
 
 @SuppressWarnings("all")
 public class SmallTopHeap<E> extends AbstractBinaryHeap<E> {

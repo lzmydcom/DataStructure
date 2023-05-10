@@ -2,7 +2,7 @@ package graph;
 
 import org.junit.Test;
 import structure.graph.operation.GeneralDiagram;
-import structure.tree.operation.Visitor;
+import structure.operation.Visitor;
 
 public class GeneralDiagramTest {
     @Test

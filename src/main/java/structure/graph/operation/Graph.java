@@ -1,8 +1,6 @@
 package structure.graph.operation;
 
-import structure.tree.operation.Visitor;
-
-import java.util.Set;
+import structure.operation.Visitor;
 
 public interface Graph<V, E> {
     /**

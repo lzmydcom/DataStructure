@@ -1,6 +1,6 @@
 package structure.tree.collection.operation;
 
-import structure.tree.operation.Visitor;
+import structure.operation.Visitor;
 
 public interface Set<K> {
     int size();

@@ -3,7 +3,7 @@ package example.binaryTree;
 import org.junit.Test;
 import pojo.Student;
 import structure.tree.binaryTree.tree.BinarySearchTree;
-import structure.tree.operation.Comparator;
+import structure.operation.Comparator;
 import util.printer.BinaryTrees;
 
 public class BinarySearchTreeTest {

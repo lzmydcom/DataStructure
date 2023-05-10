@@ -1,4 +1,4 @@
-package structure.tree.operation;
+package structure.operation;
 public interface Comparator <E>{
     int compare(E e1, E e2);
 }

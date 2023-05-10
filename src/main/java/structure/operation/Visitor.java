@@ -1,4 +1,4 @@
-package structure.tree.operation;
+package structure.operation;
 
 public abstract class Visitor<E> {
     public static boolean stop = false;

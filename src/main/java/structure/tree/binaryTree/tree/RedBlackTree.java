@@ -1,7 +1,7 @@
 package structure.tree.binaryTree.tree;
 
 import structure.tree.binaryTree.operation.AbstractBalancedBinarySearchTree;
-import structure.tree.operation.Comparator;
+import structure.operation.Comparator;
 import util.printer.BinaryTreeInfo;
 
 @SuppressWarnings("all")

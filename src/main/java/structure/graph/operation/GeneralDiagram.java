@@ -4,7 +4,7 @@ import structure.linear.array.stack.ArrayStack;
 import structure.linear.array.stack.Stack;
 import structure.linear.linked.queue.LinkedQueue;
 import structure.linear.operation.Queue;
-import structure.tree.operation.Visitor;
+import structure.operation.Visitor;
 
 import java.util.*;
 
