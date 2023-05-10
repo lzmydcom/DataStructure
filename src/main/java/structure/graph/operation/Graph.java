@@ -3,6 +3,7 @@ package structure.graph.operation;
 import structure.operation.Visitor;
 
 import java.util.List;
+import java.util.Set;
 
 public interface Graph<V, E> {
     /**
@@ -47,5 +48,31 @@ public interface Graph<V, E> {
      */
     void depthFirstSearch(V begin, Visitor<V> visitor);
 
-    List<V> topologicalSort();
+    void topologicalSort(Visitor<V> visitor);
+
+    Set<EdgeInfo<V, E>> minimumSpanningTree(V v);
+
+    class EdgeInfo<V, E>{
+        V from;
+        V to;
+        E weight;
+
+        public EdgeInfo(V from, V to, E weight) {
+            this.from = from;
+            this.to = to;
+            this.weight = weight;
+        }
+
+        public V getTo() {
+            return to;
+        }
+
+        public V getFrom() {
+            return from;
+        }
+
+        public E getWeight() {
+            return weight;
+        }
+    }
 }

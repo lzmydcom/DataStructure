@@ -3,13 +3,25 @@ package structure.graph;
 import structure.graph.operation.Graph;
 import structure.linear.array.stack.ArrayStack;
 import structure.linear.array.stack.Stack;
+import structure.linear.heap.binaryHeap.SmallTopHeap;
 import structure.linear.linked.queue.LinkedQueue;
 import structure.linear.operation.Queue;
+import structure.operation.Comparator;
 import structure.operation.Visitor;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
+@SuppressWarnings("all")
 public class GeneralGraph<V, E> implements Graph<V, E> {
+
+    private Comparator<E> comparator;
+    public GeneralGraph(Comparator<E> comparator) {
+        this.comparator = comparator;
+    }
+
+    public GeneralGraph() {
+    }
 
     private final Map<V, Vertex<V, E>> vertices = new HashMap<>();
 
@@ -167,8 +179,7 @@ public class GeneralGraph<V, E> implements Graph<V, E> {
     }
 
     @Override
-    public List<V> topologicalSort() {
-        List<V> resultList = new LinkedList<>();
+    public void topologicalSort(Visitor<V> visitor) {
         Queue<Vertex<V, E>> queue = new LinkedQueue<>();
         Map<Vertex<V, E>, Integer> map = new HashMap<>();
         //将入度为0的节点加入队列中，入度不为0的节点记录到map集合中
@@ -182,7 +193,8 @@ public class GeneralGraph<V, E> implements Graph<V, E> {
         });
         do {
             Vertex<V, E> veVertex = queue.deQueue();
-            resultList.add(veVertex.value);
+            if (Visitor.stop) return;
+            visitor.visit(veVertex.value);
             for (Edge<V, E> toEdge : veVertex.toEdges) {
                 int size = map.get(toEdge.to) - 1;
                 if (size == 0){
@@ -192,7 +204,50 @@ public class GeneralGraph<V, E> implements Graph<V, E> {
                 }
             }
         }while (!queue.isEmpty());
-        return resultList;
+    }
+
+    @Override
+    public Set<EdgeInfo<V, E>> minimumSpanningTree(V v) {
+        int verticesSize = vertices();
+        Vertex<V, E> veVertex = vertices.get(v);
+        Set<Vertex<V, E>> vertexSet =new HashSet<>();
+        Set<EdgeInfo<V, E>> edgeInfoSet = new HashSet<>();
+        SmallTopHeap<EdgeInfo<V, E>> smallTopHeap = new SmallTopHeap<>(new Comparator<EdgeInfo<V, E>>() {
+            @Override
+            public int compare(EdgeInfo<V, E> e1, EdgeInfo<V, E> e2) {
+                return comparator == null ?
+                        ((Comparable<E>) e1.getWeight()).compareTo(e2.getWeight())
+                        : comparator.compare(e1.getWeight(), e2.getWeight());
+            }
+        });
+        vertexSet.add(veVertex);
+        Vertex<V, E> mstNode = null;
+        do {
+            for (Vertex<V, E> vertex : vertexSet) {
+                //遍历所有添加到vertexSet中的节点上的边
+                for (Edge<V, E> toEdge : vertex.toEdges) {
+                    //如果是vertexSet中的节点之间的边则跳过不去处理
+                    if (vertexSet.contains(toEdge.to) && vertexSet.contains(toEdge.from)){
+                        continue;
+                    }
+                    //所有符合条件的边（这些边如果两端都断开将会把图拆分为两个集合，
+                    // 一个为最小生成树集合，一个为顶点和边的集合）添加到小顶堆中
+                    smallTopHeap.add(new EdgeInfo<>(toEdge.from.value, toEdge.to.value, toEdge.weight));
+                }
+            }
+            //获取权值最小的EdgeInfo，实际上就是小顶堆的堆顶元素
+            EdgeInfo<V, E> veEdgeInfo = smallTopHeap.get();
+            //将找到的最小生成树边信息存入边信息集合
+            edgeInfoSet.add(veEdgeInfo);
+            //将找到的最小生成树节点加入最小生成树的节点集合
+            mstNode = vertices.get(veEdgeInfo.getTo());
+            //清空小顶堆
+            smallTopHeap.clear();
+            vertexSet.add(mstNode);
+            //如果最小生成树顶点集合等于图的顶点集合代表此时的最小生成树就是图的最小生成树
+        }while (vertexSet.size() != verticesSize);
+
+        return edgeInfoSet;
     }
 
 

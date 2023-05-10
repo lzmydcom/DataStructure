@@ -2,9 +2,11 @@ package example.graph;
 
 import org.junit.Test;
 import structure.graph.GeneralGraph;
+import structure.graph.operation.Graph;
 import structure.operation.Visitor;
 
 import java.util.List;
+import java.util.Set;
 
 public class GeneralGraphTest {
     @Test
@@ -61,9 +63,63 @@ public class GeneralGraphTest {
         graph.addEdge(7, 6);
         graph.addEdge(6, 4);
 
-        List<Integer> list = graph.topologicalSort();
-        for (Integer integer : list) {
-            System.out.println(integer);
+        graph.topologicalSort(new Visitor<Integer>() {
+            @Override
+            public void visit(Integer integer) {
+                System.out.println(integer);
+            }
+        });
+    }
+
+    @Test
+    public void test04(){
+        GeneralGraph<String, Integer> graph = new GeneralGraph<>();
+        graph.addEdge("A", "B", 4);
+        graph.addEdge("B", "A", 4);
+
+        graph.addEdge("A", "H", 8);
+        graph.addEdge("H", "A", 8);
+
+        graph.addEdge("B", "C", 8);
+        graph.addEdge("C", "B", 8);
+
+        graph.addEdge("B", "H", 11);
+        graph.addEdge("H", "B", 11);
+
+        graph.addEdge("I", "H", 7);
+        graph.addEdge("H", "I", 7);
+
+        graph.addEdge("I", "G", 6);
+        graph.addEdge("G", "I", 6);
+
+
+        graph.addEdge("I", "C", 2);
+        graph.addEdge("C", "I", 2);
+
+        graph.addEdge("H", "G", 1);
+        graph.addEdge("G", "H", 1);
+
+        graph.addEdge("C", "D", 7);
+        graph.addEdge("D", "C", 7);
+
+        graph.addEdge("C", "F", 4);
+        graph.addEdge("F", "C", 4);
+
+        graph.addEdge("G", "F", 2);
+        graph.addEdge("F", "G", 2);
+
+        graph.addEdge("D", "F", 14);
+        graph.addEdge("F", "D", 14);
+
+        graph.addEdge("D", "E", 9);
+        graph.addEdge("E", "D", 9);
+
+        graph.addEdge("F", "E", 10);
+        graph.addEdge("E", "F", 10);
+
+        Set<Graph.EdgeInfo<String, Integer>> edgeInfoSet = graph.minimumSpanningTree("A");
+        for (Graph.EdgeInfo<String, Integer> info : edgeInfoSet) {
+            System.out.println(info.getFrom() + "-" + info.getTo() + " p:" + info.getWeight());
         }
     }
 }
