@@ -3,6 +3,7 @@ package structure.graph.operation;
 import structure.operation.Visitor;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public interface Graph<V, E> {
@@ -50,7 +51,12 @@ public interface Graph<V, E> {
 
     void topologicalSort(Visitor<V> visitor);
 
-    Set<EdgeInfo<V, E>> minimumSpanningTree(V v);
+    /**
+     *最小生成树
+     */
+    Set<EdgeInfo<V, E>> minimumSpanningTreePrim();
+
+    Set<EdgeInfo<V, E>> minimumSpanningTreeKruskal();
 
     class EdgeInfo<V, E>{
         V from;
