@@ -6,7 +6,9 @@ import structure.graph.operation.Graph;
 import structure.operation.Visitor;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 public class GeneralGraphTest {
     private Graph<String, Integer> data01(){
@@ -55,8 +57,8 @@ public class GeneralGraphTest {
         graph.addEdge("E", "F", 10);
         return graph;
     }
-    @Test
-    public void test01(){
+
+    private Graph<String, Integer> data02(){
         GeneralGraph<String, Integer> graph = new GeneralGraph<>();
         graph.addEdge("V1", "V2", 3);
         graph.addEdge("V1", "V0", 9);
@@ -64,6 +66,39 @@ public class GeneralGraphTest {
         graph.addEdge("V2", "V0", 2);
         graph.addEdge("V3", "V4", 1);
         graph.addEdge("V0", "V4", 6);
+        return graph;
+    }
+
+    private Graph<Integer, Integer> data03(){
+        GeneralGraph<Integer, Integer> graph = new GeneralGraph<>();
+        graph.addEdge(0, 2);
+        graph.addEdge(1, 0);
+        graph.addEdge(3, 1);
+        graph.addEdge(3, 5);
+        graph.addEdge(3, 7);
+        graph.addEdge(5, 7);
+        graph.addEdge(2, 5);
+        graph.addEdge(2, 6);
+        graph.addEdge(7, 6);
+        graph.addEdge(6, 4);
+        return graph;
+    }
+
+    private Graph<String, Integer> data04(){
+        Graph<String, Integer> graph = new GeneralGraph<>();
+        graph.addEdge("A", "E", 100);
+        graph.addEdge("A", "B", 10);
+        graph.addEdge("A", "D", 30);
+        graph.addEdge("B", "C", 50);
+        graph.addEdge("D", "C", 20);
+        graph.addEdge("C", "E", 10);
+        graph.addEdge("D", "E", 60);
+        return graph;
+    }
+
+    @Test
+    public void test01(){
+        Graph<String, Integer> graph = data02();
         graph.print();
         System.out.println("================================================");
         graph.breadthFirstSearch("V1", new Visitor<String>() {
@@ -79,13 +114,7 @@ public class GeneralGraphTest {
 
     @Test
     public void test02(){
-        GeneralGraph<String, Integer> graph = new GeneralGraph<>();
-        graph.addEdge("V1", "V2", 3);
-        graph.addEdge("V1", "V0", 9);
-        graph.addEdge("V2", "V3", 5);
-        graph.addEdge("V2", "V0", 2);
-        graph.addEdge("V3", "V4", 1);
-        graph.addEdge("V0", "V4", 6);
+        Graph<String, Integer> graph = data02();
 
         graph.depthFirstSearch("V1", new Visitor<String>() {
             @Override
@@ -97,18 +126,7 @@ public class GeneralGraphTest {
     }
     @Test
     public void test03(){
-        GeneralGraph<Integer, Integer> graph = new GeneralGraph<>();
-        graph.addEdge(0, 2);
-        graph.addEdge(1, 0);
-        graph.addEdge(3, 1);
-        graph.addEdge(3, 5);
-        graph.addEdge(3, 7);
-        graph.addEdge(5, 7);
-        graph.addEdge(2, 5);
-        graph.addEdge(2, 6);
-        graph.addEdge(7, 6);
-        graph.addEdge(6, 4);
-
+        Graph<Integer, Integer> graph = data03();
         graph.topologicalSort(new Visitor<Integer>() {
             @Override
             public void visit(Integer integer) {
@@ -120,7 +138,7 @@ public class GeneralGraphTest {
     @Test
     public void test04(){
         Graph<String, Integer> graph = data01();
-        Set<Graph.EdgeInfo<String, Integer>> edgeInfoSet = graph.minimumSpanningTreePrim();
+        List<Graph.EdgeInfo<String, Integer>> edgeInfoSet = graph.minimumSpanningTreePrim();
         for (Graph.EdgeInfo<String, Integer> info : edgeInfoSet) {
             System.out.println(info.getFrom() + "-" + info.getTo() + " p:" + info.getWeight());
         }
@@ -128,7 +146,7 @@ public class GeneralGraphTest {
     @Test
     public void test05(){
         Graph<String, Integer> graph = data01();
-        Set<Graph.EdgeInfo<String, Integer>> edgeInfoSet = graph.minimumSpanningTreeKruskal();
+        List<Graph.EdgeInfo<String, Integer>> edgeInfoSet = graph.minimumSpanningTreeKruskal();
         edgeInfoSet.forEach(edgeInfo -> {
             System.out.println(edgeInfo.getFrom() + "-" + edgeInfo.getTo() + " q = " +edgeInfo.getWeight());
             /*
@@ -142,5 +160,76 @@ public class GeneralGraphTest {
            C-D q = 7
             */
         });
+    }
+
+    @Test
+    public void test06(){
+        Graph<String, Integer> graph = data01();
+        List<Graph.EdgeInfo<String, Integer>> edgeInfoSet = graph.minimumSpanningTreeKruskal();
+        edgeInfoSet.forEach(edgeInfo -> {
+            System.out.println(edgeInfo.getFrom() + "-" + edgeInfo.getTo() + " q = " +edgeInfo.getWeight());
+        });
+    }
+
+    @Test
+    public void test07(){
+        Graph<String, Integer> graph = data04();
+        Map<String, Integer> map = graph.dijkstra("A", Integer::sum);
+        Set<Map.Entry<String, Integer>> entries = map.entrySet();
+        for (Map.Entry<String, Integer> entry : entries) {
+            System.out.println("A->" + entry.getKey() + " q=" + entry.getValue());
+        }
+    }
+
+    @Test
+    public void test08(){
+        Graph<String, Integer> graph = data04();
+        Map<String, Stack<Graph.EdgeInfo<String, Integer>>> map = graph.dijkstraReturnRoute("A", Integer::sum);
+        Set<Map.Entry<String, Stack<Graph.EdgeInfo<String, Integer>>>> entries = map.entrySet();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Map.Entry<String, Stack<Graph.EdgeInfo<String, Integer>>> entry : entries) {
+            Stack<Graph.EdgeInfo<String, Integer>> edgeInfoStack = entry.getValue();
+            stringBuilder.append("A->").append(entry.getKey()).append(" path:  ");
+            do {
+                Graph.EdgeInfo<String, Integer> pop = edgeInfoStack.pop();
+                stringBuilder.append(pop.getTo()).append("<-").append(pop.getWeight()).append("-");
+                if (edgeInfoStack.isEmpty()){
+                    stringBuilder.append(pop.getFrom());
+                }
+            } while (!edgeInfoStack.isEmpty());
+            System.out.println(stringBuilder);
+            stringBuilder.setLength(0);
+        }
+    }
+
+    @Test
+    public void test09(){
+        Graph<String, Integer> graph = data01();
+        Map<String, Integer> map = graph.dijkstra("A", Integer::sum);
+        Set<Map.Entry<String, Integer>> entries = map.entrySet();
+        for (Map.Entry<String, Integer> entry : entries) {
+            System.out.println("A->" + entry.getKey() + " q=" + entry.getValue());
+        }
+    }
+
+    @Test
+    public void test10(){
+        Graph<String, Integer> graph = data01();
+        Map<String, Stack<Graph.EdgeInfo<String, Integer>>> map = graph.dijkstraReturnRoute("A", Integer::sum);
+        Set<Map.Entry<String, Stack<Graph.EdgeInfo<String, Integer>>>> entries = map.entrySet();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Map.Entry<String, Stack<Graph.EdgeInfo<String, Integer>>> entry : entries) {
+            Stack<Graph.EdgeInfo<String, Integer>> edgeInfoStack = entry.getValue();
+            stringBuilder.append("A->").append(entry.getKey()).append(" path:  ");
+            do {
+                Graph.EdgeInfo<String, Integer> pop = edgeInfoStack.pop();
+                stringBuilder.append(pop.getTo()).append("<-").append(pop.getWeight()).append("-");
+                if (edgeInfoStack.isEmpty()){
+                    stringBuilder.append(pop.getFrom());
+                }
+            } while (!edgeInfoStack.isEmpty());
+            System.out.println(stringBuilder);
+            stringBuilder.setLength(0);
+        }
     }
 }

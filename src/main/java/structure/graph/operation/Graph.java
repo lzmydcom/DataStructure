@@ -2,9 +2,7 @@ package structure.graph.operation;
 
 import structure.operation.Visitor;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public interface Graph<V, E> {
     /**
@@ -39,6 +37,8 @@ public interface Graph<V, E> {
      */
     void removeEdge(V from, V to);
 
+    void print();
+
     /**
      * 广度优先搜索
      */
@@ -54,9 +54,13 @@ public interface Graph<V, E> {
     /**
      *最小生成树
      */
-    Set<EdgeInfo<V, E>> minimumSpanningTreePrim();
+    List<EdgeInfo<V, E>> minimumSpanningTreePrim();
 
-    Set<EdgeInfo<V, E>> minimumSpanningTreeKruskal();
+    List<EdgeInfo<V, E>> minimumSpanningTreeKruskal();
+
+    Map<V, E> dijkstra(V begin, Operation<E> operation);
+
+    Map<V, Stack<EdgeInfo<V, E>>> dijkstraReturnRoute(V begin, Operation<E> operation);
 
     class EdgeInfo<V, E>{
         V from;
@@ -80,5 +84,9 @@ public interface Graph<V, E> {
         public E getWeight() {
             return weight;
         }
+    }
+
+    interface Operation<E>{
+        E operate(E e1, E e2);
     }
 }

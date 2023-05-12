@@ -4,20 +4,20 @@ import structure.graph.operation.Graph;
 import structure.linear.array.stack.ArrayStack;
 import structure.linear.array.stack.Stack;
 import structure.linear.array.unionFind.genericUnionFind.GenericQuickUnion;
-import structure.linear.array.unionFind.quickUnion.QuickUnionRankPathHalving;
 import structure.linear.heap.binaryHeap.SmallTopHeap;
+import structure.linear.heap.queue.PriorityQueue;
 import structure.linear.linked.queue.LinkedQueue;
 import structure.linear.operation.Queue;
 import structure.operation.Comparator;
 import structure.operation.Visitor;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("all")
 public class GeneralGraph<V, E> implements Graph<V, E> {
 
     private Comparator<E> comparator;
+
     public GeneralGraph(Comparator<E> comparator) {
         this.comparator = comparator;
     }
@@ -29,8 +29,8 @@ public class GeneralGraph<V, E> implements Graph<V, E> {
 
     private final Set<Edge<V, E>> edges = new HashSet<>();
 
-    public void print(){
-        vertices.forEach((V v, Vertex<V, E> vertex)->{
+    public void print() {
+        vertices.forEach((V v, Vertex<V, E> vertex) -> {
             System.out.println(v);
             System.out.println("fromEdges:" + vertex.fromEdges);
             System.out.println("toEdges:" + vertex.toEdges);
@@ -87,14 +87,14 @@ public class GeneralGraph<V, E> implements Graph<V, E> {
         Vertex<V, E> veVertex = vertices.get(v);
         if (veVertex == null) return;
         Iterator<Edge<V, E>> iterator = veVertex.toEdges.iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             Edge<V, E> edge = iterator.next();
             edge.to.fromEdges.remove(edge);
             iterator.remove();
             edges.remove(edge);
         }
         Iterator<Edge<V, E>> edgeIterator = veVertex.fromEdges.iterator();
-        while (edgeIterator.hasNext()){
+        while (edgeIterator.hasNext()) {
             Edge<V, E> edge = edgeIterator.next();
             edge.from.toEdges.remove(edge);
             edgeIterator.remove();
@@ -184,11 +184,11 @@ public class GeneralGraph<V, E> implements Graph<V, E> {
         Queue<Vertex<V, E>> queue = new LinkedQueue<>();
         Map<Vertex<V, E>, Integer> map = new HashMap<>();
         //将入度为0的节点加入队列中，入度不为0的节点记录到map集合中
-        vertices.forEach((V v, Vertex<V,E> vertex)->{
+        vertices.forEach((V v, Vertex<V, E> vertex) -> {
             int size = vertex.fromEdges.size();
-            if (size == 0){
+            if (size == 0) {
                 queue.enQueue(vertex);
-            } else{
+            } else {
                 map.put(vertex, size);
             }
         });
@@ -198,21 +198,21 @@ public class GeneralGraph<V, E> implements Graph<V, E> {
             visitor.visit(veVertex.value);
             for (Edge<V, E> toEdge : veVertex.toEdges) {
                 int size = map.get(toEdge.to) - 1;
-                if (size == 0){
+                if (size == 0) {
                     queue.enQueue(toEdge.to);
-                }else {
+                } else {
                     map.put(toEdge.to, size);
                 }
             }
-        }while (!queue.isEmpty());
+        } while (!queue.isEmpty());
     }
 
     @Override
-    public Set<EdgeInfo<V, E>> minimumSpanningTreePrim() {
+    public List<EdgeInfo<V, E>> minimumSpanningTreePrim() {
         Iterator<Vertex<V, E>> iterator = vertices.values().iterator();
         if (!iterator.hasNext()) return null;
         Vertex<V, E> veVertex = iterator.next();
-        Set<EdgeInfo<V, E>> edgeInfoSet = new HashSet<>();
+        List<EdgeInfo<V, E>> edgeInfoList = new LinkedList<>();
         Set<Vertex<V, E>> vertexSet = new HashSet<>();
         SmallTopHeap<Edge<V, E>> smallTopHeap = new SmallTopHeap<>(new Comparator<Edge<V, E>>() {
             @Override
@@ -223,7 +223,7 @@ public class GeneralGraph<V, E> implements Graph<V, E> {
             }
         });
         int verticeSize = vertices();
-        do{
+        do {
             vertexSet.add(veVertex);
             for (Edge<V, E> edge : veVertex.toEdges) {
                 if (vertexSet.contains(edge.from) && vertexSet.contains(edge.to)) continue;
@@ -236,18 +236,18 @@ public class GeneralGraph<V, E> implements Graph<V, E> {
                 break;
             } while (!smallTopHeap.isEmpty());
             EdgeInfo<V, E> veEdgeInfo = veEdge.edgeInfo();
-            edgeInfoSet.add(veEdgeInfo);
+            edgeInfoList.add(veEdgeInfo);
             veVertex = veEdge.to;
-        } while(edgeInfoSet.size() != verticeSize - 1);
+        } while (edgeInfoList.size() != verticeSize - 1);
 
-        return edgeInfoSet;
+        return edgeInfoList;
     }
 
     @Override
-    public Set<EdgeInfo<V, E>> minimumSpanningTreeKruskal() {
+    public List<EdgeInfo<V, E>> minimumSpanningTreeKruskal() {
         GenericQuickUnion<Vertex<V, E>> gqu = new GenericQuickUnion<>();
         vertices.values().forEach(vertex -> gqu.initV(vertex));
-        Set<EdgeInfo<V, E>> edgeInfoSet = new HashSet<>();
+        List<EdgeInfo<V, E>> edgeInfoList = new LinkedList<>();
         SmallTopHeap<Edge<V, E>> smallTopHeap = new SmallTopHeap<>(new Comparator<Edge<V, E>>() {
             @Override
             public int compare(Edge<V, E> e1, Edge<V, E> e2) {
@@ -257,31 +257,124 @@ public class GeneralGraph<V, E> implements Graph<V, E> {
             }
         });
         int vertexSize = vertices() - 1;
-        edges.forEach(edge->smallTopHeap.add(edge));
+        edges.forEach(edge -> smallTopHeap.add(edge));
 
         do {
             Edge<V, E> remove = smallTopHeap.remove();
             if (gqu.isSame(remove.from, remove.to)) continue;
-            edgeInfoSet.add(remove.edgeInfo());
+            edgeInfoList.add(remove.edgeInfo());
             gqu.union(remove.from, remove.to);
-        } while (!smallTopHeap.isEmpty() && edgeInfoSet.size() != vertexSize);
+        } while (!smallTopHeap.isEmpty() && edgeInfoList.size() != vertexSize);
 
-        return edgeInfoSet;
+        return edgeInfoList;
     }
 
-    private void vertexNotNullCheck(V v){
+    @Override
+    public Map<V, E> dijkstra(V begin, Operation<E> operation) {
+        Vertex<V, E> veVertex = vertices.get(begin);
+        if (veVertex == null) return null;
+
+        Map<V, E> map = new HashMap<>();
+        PriorityQueue<Edge<V, E>> queue = new PriorityQueue<>(new Comparator<Edge<V, E>>() {
+            @Override
+            public int compare(Edge<V, E> e1, Edge<V, E> e2) {
+                return comparator == null ?
+                        ((Comparable<E>) e1.weight).compareTo(e2.weight)
+                        : comparator.compare(e1.weight, e2.weight);
+            }
+        });
+
+        int vertexSize = vertices();
+        veVertex.toEdges.forEach(veEdge -> queue.enQueue(veEdge));
+
+        do {
+            Edge<V, E> veEdge = queue.deQueue();
+            E temp;
+
+            if ((temp = map.get(veEdge.to.value)) != null || veEdge.to.value.equals(begin)) {
+                //来到这说明有更好的到达路径已经在map中存在，该路径不进行任何处理
+                continue;
+            }
+            //将边的顶点和权值放到map中
+            map.put(veEdge.to.value, veEdge.weight);
+            E weight = veEdge.weight;
+            veEdge.to.toEdges.forEach(edge -> {
+                //将权值进行处理后赋值给新创建出来的边里(例如 加减，拼接等...)
+                //为了不破坏原本的图的权值，创建一个新的边加入到优先级队列中
+                Edge<V, E> newEdge = new Edge<>(edge.from, edge.to, operation.operate(weight, edge.weight));
+                queue.enQueue(newEdge);
+            });
+            //所有可能的边都已经遍历完或者所有的顶点都已经找到最佳路径匹配，退出循环
+        } while (!queue.isEmpty() && map.size() != vertexSize - 1);
+        return map;
+    }
+
+    @Override
+    public Map<V, java.util.Stack<EdgeInfo<V, E>>> dijkstraReturnRoute(V begin, Operation<E> operation) {
+        Vertex<V, E> veVertex = vertices.get(begin);
+        if (veVertex == null) return null;
+
+        Map<V, java.util.Stack<EdgeInfo<V, E>>> map = new HashMap<>();
+        PriorityQueue<Edge<V, E>> queue = new PriorityQueue<>(new Comparator<Edge<V, E>>() {
+            @Override
+            public int compare(Edge<V, E> e1, Edge<V, E> e2) {
+                return comparator == null ?
+                        ((Comparable<E>) e1.weight).compareTo(e2.weight)
+                        : comparator.compare(e1.weight, e2.weight);
+            }
+        });
+
+        int vertexSize = vertices();
+        veVertex.toEdges.forEach(veEdge -> queue.enQueue(veEdge));
+
+        do {
+            Edge<V, E> veEdge = queue.deQueue();
+            java.util.Stack<EdgeInfo<V, E>> stack;
+            if ((stack = map.get(veEdge.to.value)) != null || veEdge.to.value.equals(begin)) {
+                //来到这说明有更好的到达路径已经在map中存在，该路径不进行任何处理
+                continue;
+            } else {
+                //能来到这说明map中还是第一次添加该节点的路径
+                java.util.Stack<EdgeInfo<V, E>> fromVertexStack = map.get(veEdge.from.value);
+                stack = new java.util.Stack<>();
+                if (fromVertexStack != null){
+                    for (EdgeInfo<V, E> veEdgeInfo : fromVertexStack) {
+                        stack.push(veEdgeInfo);
+                    }
+                }
+            }
+            //将边的顶点和权值放到map中
+            stack.push(veEdge.edgeInfo());
+            map.put(veEdge.to.value, stack);
+            E weight = veEdge.weight;
+            veEdge.to.toEdges.forEach(edge -> {
+                //将权值进行处理后赋值给新创建出来的边里(例如 加减，拼接等...)
+                //为了不破坏原本的图的权值，创建一个新的边加入到优先级队列中
+                Edge<V, E> newEdge = new Edge<>(edge.from, edge.to, operation.operate(weight, edge.weight));
+                queue.enQueue(newEdge);
+            });
+            //所有可能的边都已经遍历完或者所有的顶点都已经找到最佳路径匹配，退出循环
+        } while (!queue.isEmpty() && map.size() != vertexSize - 1);
+        return map;
+    }
+
+    private int compare(E e1, E e2) {
+        return comparator == null ? ((Comparable<E>) e1).compareTo(e2) : comparator.compare(e1, e2);
+    }
+
+    private void vertexNotNullCheck(V v) {
         if (v == null) throw new IllegalArgumentException("v must not be null");
     }
 
-    private void vertexNotNullCheck(V v1, V v2){
+    private void vertexNotNullCheck(V v1, V v2) {
         if (v1 == null || v2 == null) throw new IllegalArgumentException("v must not be null");
     }
-
 
     private static class Vertex<V, E> {
         public Vertex(V value) {
             this.value = value;
         }
+
         V value;
         Set<Edge<V, E>> fromEdges = new HashSet<>();
         Set<Edge<V, E>> toEdges = new HashSet<>();
@@ -319,7 +412,13 @@ public class GeneralGraph<V, E> implements Graph<V, E> {
             this.to = to;
         }
 
-        public Graph.EdgeInfo<V, E> edgeInfo(){
+        public Edge(Vertex<V, E> from, Vertex<V, E> to, E weight) {
+            this.from = from;
+            this.to = to;
+            this.weight = weight;
+        }
+
+        public Graph.EdgeInfo<V, E> edgeInfo() {
             return new EdgeInfo<>(from.value, to.value, weight);
         }
 
